@@ -1,0 +1,16 @@
+version: '3.4'
+services:
+  db:
+    build: ./mariadb
+    container_name: vitstore_db
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      TZ: Asia/Tokyo
+    ports:
+      - 3306:3306
+    restart: on-failure
+volumes:
+  data:
+    driver: local

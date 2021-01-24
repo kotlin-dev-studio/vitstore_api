@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/vitstore_dev?createDatabaseIfNotExist=true&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: password
+
+logging:
+  file:
+    name: log/development.log # Log files rotate when they reach 10 MB
