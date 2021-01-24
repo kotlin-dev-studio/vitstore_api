@@ -1,0 +1,24 @@
+version: '3.4'
+services:
+  db:
+    build: ./mariadb
+    container_name: vitstore_db
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      TZ: Asia/Tokyo
+    ports:
+      - 3306:3306
+    restart: on-failure
+  mailcatcher:
+    container_name: vitstore_mailcatcher
+    image: schickling/mailcatcher
+    ports:
+      - 1025:1025
+      - 1080:1080
+volumes:
+  data:
+    driver: local

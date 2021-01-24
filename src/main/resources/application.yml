@@ -1,0 +1,18 @@
+# Spring props
+spring:
+  profiles:
+    active: dev
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDB103Dialect
+    hibernate:
+      ddl-auto: update
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.session: INFO
+    org.springframework.web.servlet: DEBUG
+    org.hibernate: ERROR
+
+# App props
