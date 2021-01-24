@@ -9,7 +9,7 @@ We are using MVC from this [reference](https://docs.google.com/spreadsheets/d/1X
 Please check out [here](https://github.com/kotlin-dev-studio/vitstore_api/blob/develop/.github/pull_request_template.md).
 
 ### Run the application
-- Clone project from repository `git clone git@github.com:kotlin-dev-studio/vitstore_api.git`
+- Clone project from branch `exmaple-api-app`
 - Build gradle in `build.gradle.kts`
   
 - Spring boot configuration:
