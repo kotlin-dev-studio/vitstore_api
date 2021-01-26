@@ -7,6 +7,15 @@ spring:
         dialect: org.hibernate.dialect.MariaDB103Dialect
     hibernate:
       ddl-auto: update
+    mail:
+      host: smtp.gmail.com
+      port: 465
+      protocol: smtps
+      username: example@xxx.com
+      password: xxx
+
+    api:
+      hostUrl: http://localhost:8080
 logging:
   level:
     org.springframework.security: DEBUG
