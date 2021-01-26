@@ -48,6 +48,10 @@ dependencies {
         exclude(module = "mockito-core")
     }
     testImplementation("org.springframework.security:spring-security-test")
+
+    // mail
+    implementation("org.springframework.boot:spring-boot-starter-mail")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 }
 
 tasks.withType<KotlinCompile> {
