@@ -9,4 +9,5 @@ interface UserRepository : JpaRepository<UserDao?, Long> {
     fun findByUsername(username: String?): UserDao?
     fun findByEmailIgnoreCase(email: String): UserDao?
     fun existsByEmail(email: String): Boolean
+    fun findByActiveToken(activeToken: String): UserDao?
 }
