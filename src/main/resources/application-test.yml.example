@@ -1,8 +1,12 @@
 spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/vitstore_test?createDatabaseIfNotExist=true&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
-    username: test
-    password: test
+    username: root
+    password: password
+
+jwt:
+  secret: "8c15f5ce88c8f05cdffa7d2974f8de758f779e8a7c2fe714071b28bee6887c2b7f945aa7fd5bf55333d84e44ec7268b06c9ee6ccead89644e29f7a4eb5f4559c"
+  expireTimeInHour: 5
 
 logging:
   file:

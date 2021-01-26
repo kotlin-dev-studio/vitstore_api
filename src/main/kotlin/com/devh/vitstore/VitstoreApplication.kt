@@ -2,9 +2,16 @@ package com.devh.vitstore
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import java.util.*
+import javax.annotation.PostConstruct
 
 @SpringBootApplication
-class VitstoreApplication
+class VitstoreApplication {
+    @PostConstruct
+    fun postConstruct() {
+        TimeZone.setDefault(TimeZone.getTimeZone("JST"))
+    }
+}
 
 fun main(args: Array<String>) {
     runApplication<VitstoreApplication>(*args)
