@@ -11,6 +11,7 @@
 - [ ] All existing and new tests are passing.
 - [ ] I updated status my task
 - [ ] Code has Unit Test?
+- [ ] Klint format is passed.
 
 ### Notes
 *(Other notes)*

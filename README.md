@@ -59,3 +59,7 @@ Klint
 ./gradlew ktlintCheck
 ./gradlew ktlintFormat
 ```
+
+Swagger API Document
+
+- Available at http://localhost:8080/swagger-ui/

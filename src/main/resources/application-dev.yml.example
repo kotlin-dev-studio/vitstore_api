@@ -4,6 +4,10 @@ spring:
     username: root
     password: password
 
+jwt:
+  secret: "f0ef5cd74655a52a5c9b8d85d220df81059f9422f40f2476d7205129da131edf872731ae03902fa8476bbf8bcd696012b7eb37972b1ba41d76ba4f68b9835a6d"
+  expireTimeInHour: 5
+
 logging:
   file:
     name: log/development.log # Log files rotate when they reach 10 MB
