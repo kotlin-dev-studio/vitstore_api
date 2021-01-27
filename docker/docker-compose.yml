@@ -13,6 +13,12 @@ services:
     ports:
       - 3306:3306
     restart: on-failure
+  mailcatcher:
+    container_name: vitstore_mailcatcher
+    image: schickling/mailcatcher
+    ports:
+      - 1025:1025
+      - 1080:1080
 volumes:
   data:
     driver: local

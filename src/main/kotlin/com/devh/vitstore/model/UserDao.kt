@@ -3,7 +3,11 @@ package com.devh.vitstore.model
 import com.devh.vitstore.common.model.BaseEntity
 import com.devh.vitstore.model.user.Status
 import com.fasterxml.jackson.annotation.JsonIgnore
-import javax.persistence.*
+import java.time.LocalDateTime
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.Enumerated
+import javax.persistence.Table
 
 @Entity
 @Table(name = "users")
@@ -23,7 +27,13 @@ data class UserDao(
     var status: Status = Status.PENDING,
 
     @Column
-    var phoneNumber: String? = null
+    var phoneNumber: String? = null,
+
+    @Column(name = "active_token")
+    var activeToken: String? = null,
+
+    @Column(name = "active_token_expired_at")
+    var activeTokenExpiredAt: LocalDateTime? = LocalDateTime.now(),
 
 ) : BaseEntity<Long>() {
     companion object {

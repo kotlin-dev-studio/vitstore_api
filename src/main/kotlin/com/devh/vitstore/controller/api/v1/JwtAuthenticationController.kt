@@ -1,5 +1,6 @@
 package com.devh.vitstore.controller.api.v1
 
+import com.devh.vitstore.common.model.ResultRes
 import com.devh.vitstore.config.JwtTokenUtil
 import com.devh.vitstore.model.jwt.JwtRequest
 import com.devh.vitstore.model.jwt.JwtResponse
@@ -10,10 +11,9 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.DisabledException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import java.time.LocalDateTime
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @CrossOrigin
@@ -22,7 +22,6 @@ class JwtAuthenticationController(
     private val jwtTokenUtil: JwtTokenUtil,
     private val jwtUserDetailsService: JwtUserDetailsService
 ) {
-
     @PostMapping("/authenticate")
     @Throws(Exception::class)
     fun createAuthenticationToken(@RequestBody authenticationRequest: JwtRequest): ResponseEntity<JwtResponse> {
@@ -34,8 +33,8 @@ class JwtAuthenticationController(
 
     @PostMapping("/register")
     @Throws(Exception::class)
-    fun registerUser(@RequestBody user: UserDto): ResponseEntity<Any> {
-        val result = jwtUserDetailsService.registerUser(user)
+    fun registerUser(@RequestBody user: UserDto, request: HttpServletRequest): ResponseEntity<Any> {
+        val result = jwtUserDetailsService.registerUser(user, request.locale)
         return ResponseEntity.ok(result)
     }
 
@@ -48,5 +47,17 @@ class JwtAuthenticationController(
         } catch (e: BadCredentialsException) {
             throw Exception("INVALID_CREDENTIALS", e)
         }
+    }
+
+    @GetMapping("/confirmRegistration")
+    @Throws(Exception::class)
+    fun confirmRegistration(@RequestParam(name = "activeToken", required = true) activeToken: String): ResponseEntity<Any> {
+        val user = jwtUserDetailsService.getUserByActiveToken(activeToken)
+            ?: return ResponseEntity.ok(ResultRes.failure("InvalidToken or user activated"))
+        if (user.activeTokenExpiredAt!! <= LocalDateTime.now()) {
+            return ResponseEntity.ok(ResultRes.failure("Expired!!!"))
+        }
+        jwtUserDetailsService.activeUser(user)
+        return ResponseEntity.ok(ResultRes.success("Successfully"))
     }
 }
