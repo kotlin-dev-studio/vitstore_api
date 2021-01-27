@@ -5,11 +5,12 @@ import com.devh.vitstore.model.UserDao
 import com.devh.vitstore.model.jwt.UserDto
 import com.devh.vitstore.model.user.Status
 import com.devh.vitstore.repository.UserRepository
-import com.devh.vitstore.service.mail.OnRegistrationCompleteEvent
+import com.devh.vitstore.service.mail.SendEmailEvent
 import javassist.NotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationEventPublisher
+import org.springframework.context.MessageSource
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -30,11 +31,20 @@ class JwtUserDetailsService : UserDetailsService {
     @Autowired
     private lateinit var eventPublisher: ApplicationEventPublisher
 
+    @Autowired
+    private lateinit var messages: MessageSource
+
     @Value("\${api.hostUrl}")
     private val hostUrl: String = ""
 
     @Value("\${activeToken.expireTimeInDay}")
     private val expireTimeInDay: Long = 0
+
+    @Value("\${mail.code.regSuccLink}")
+    private val regSuccLink: String = ""
+
+    @Value("\${mail.code.resSuccActiveToken}")
+    private val resSuccActiveToken: String = ""
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
@@ -66,15 +76,16 @@ class JwtUserDetailsService : UserDetailsService {
         }
         val userSaved = userRepository.save(newUser)
         userSaved.applyUsername()
-        eventPublisher.publishEvent(
-            OnRegistrationCompleteEvent(userSaved, locale, hostUrl)
-        )
+        sendEmailRegister(userSaved, locale)
+
         return userRepository.save(userSaved)
     }
 
-    fun saveActiveToken(user: UserDao, token: String?) {
+    fun saveActiveToken(user: UserDao) {
+        val activeTokenNew = UUID.randomUUID().toString() // TODO su dung cach genate token khac
+
         user.apply {
-            activeToken = token
+            activeToken = activeTokenNew
             activeTokenExpiredAt = LocalDateTime.now().plusDays(expireTimeInDay)
         }
         userRepository.save(user)
@@ -84,6 +95,11 @@ class JwtUserDetailsService : UserDetailsService {
         return userRepository.findByActiveToken(verificationToken)
     }
 
+    fun getUserByEmail(email: String): UserDao {
+        return userRepository.findByEmailIgnoreCase(email)
+            ?: throw NotFoundException("User not found with email: $email")
+    }
+
     fun activeUser(user: UserDao) {
         user.apply {
             status = Status.APPROVED
@@ -91,5 +107,33 @@ class JwtUserDetailsService : UserDetailsService {
             activeTokenExpiredAt = null
         }
         userRepository.save(user)
+    }
+
+    fun resendActiveToken(user: UserDao, locale: Locale) {
+        sendEmailReActive(user, locale)
+    }
+
+    private fun sendEmailRegister(user: UserDao, locale: Locale) {
+        saveActiveToken(user)
+
+        val recipientAddress = user.email
+        val subject = "Registration Confirmation"
+        val confirmationUrl = "$hostUrl/confirmRegistration?activeToken=${user.activeToken}"
+        val message = messages.getMessage(regSuccLink, null, "You registered successfully. To confirm your registration, please click on the below link.", locale)
+        eventPublisher.publishEvent(
+            SendEmailEvent(user, recipientAddress, subject, confirmationUrl, message)
+        )
+    }
+
+    private fun sendEmailReActive(user: UserDao, locale: Locale) {
+        saveActiveToken(user)
+
+        val recipientAddress = user.email
+        val subject = "Please verify active token"
+        val confirmationUrl = "ActiveToken: ${user.activeToken}"
+        val message = messages.getMessage(resSuccActiveToken, null, "You enter the verification code on the unrecognized device.", locale)
+        eventPublisher.publishEvent(
+            SendEmailEvent(user, recipientAddress, subject, confirmationUrl, message)
+        )
     }
 }

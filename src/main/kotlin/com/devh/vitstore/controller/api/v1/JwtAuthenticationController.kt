@@ -5,6 +5,7 @@ import com.devh.vitstore.config.JwtTokenUtil
 import com.devh.vitstore.model.jwt.JwtRequest
 import com.devh.vitstore.model.jwt.JwtResponse
 import com.devh.vitstore.model.jwt.UserDto
+import com.devh.vitstore.model.user.Status
 import com.devh.vitstore.service.jwt.JwtUserDetailsService
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
@@ -54,10 +55,20 @@ class JwtAuthenticationController(
     fun confirmRegistration(@RequestParam(name = "activeToken", required = true) activeToken: String): ResponseEntity<Any> {
         val user = jwtUserDetailsService.getUserByActiveToken(activeToken)
             ?: return ResponseEntity.ok(ResultRes.failure("InvalidToken or user activated"))
+
+        if (user.status == Status.APPROVED) return ResponseEntity.ok(ResultRes.failure("User was activated"))
+
         if (user.activeTokenExpiredAt!! <= LocalDateTime.now()) {
             return ResponseEntity.ok(ResultRes.failure("Expired!!!"))
         }
         jwtUserDetailsService.activeUser(user)
+        return ResponseEntity.ok(ResultRes.success("Successfully"))
+    }
+
+    @PostMapping("/resendActiveToken")
+    fun resendActiveToken(@RequestBody user: UserDto, request: HttpServletRequest): ResponseEntity<Any> {
+        val user = jwtUserDetailsService.getUserByEmail(user.email)
+        jwtUserDetailsService.resendActiveToken(user, request.locale)
         return ResponseEntity.ok(ResultRes.success("Successfully"))
     }
 }
