@@ -44,6 +44,9 @@ dependencies {
     implementation("org.flywaydb:flyway-core")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client:2.7.1")
 
+    // Validation
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+
     // Add Swagger API Doc
     implementation("io.springfox:springfox-boot-starter:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
