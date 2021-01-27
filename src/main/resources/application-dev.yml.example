@@ -15,7 +15,11 @@ activeToken:
   expireTimeInDay: 1
 api:
   hostUrl: http://localhost:8080
-
+mail:
+  defaultFrom: noreply@kotlinstudio.com
+  code:
+    resSuccActiveToken: message.regSuccActiveToken
+    regSuccLink: message.regSuccLink
 logging:
   file:
     name: log/development.log # Log files rotate when they reach 10 MB

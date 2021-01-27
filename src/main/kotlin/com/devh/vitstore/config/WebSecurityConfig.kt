@@ -65,7 +65,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
             .authorizeRequests().antMatchers(
                 "/authenticate",
                 "/register",
-                "/confirmRegistration"
+                "/confirmRegistration",
+                "/resendActiveToken"
             ).permitAll()
             .anyRequest().authenticated()
             .and()
