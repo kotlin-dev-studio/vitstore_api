@@ -26,5 +26,5 @@ data class ProductDao(
     var createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    var updatedAt: LocalDateTime? = null
 ) : BaseEntity<Long>()
