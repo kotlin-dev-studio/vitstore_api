@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import java.lang.Exception
 
 @Configuration
 @EnableWebSecurity
@@ -65,7 +64,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
             .authorizeRequests().antMatchers(
                 "/authenticate",
                 "/register",
-                "/confirmRegistration"
+                "/confirmRegistration",
+                "/api/v1/sample/testError"
             ).permitAll()
             .anyRequest().authenticated()
             .and()
