@@ -1,6 +1,6 @@
 package com.devh.vitstore.repository
 
-import com.devh.vitstore.model.UserDao
+import com.devh.vitstore.model.user.UserDao
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

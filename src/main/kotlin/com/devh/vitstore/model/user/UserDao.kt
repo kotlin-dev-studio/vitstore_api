@@ -1,7 +1,6 @@
-package com.devh.vitstore.model
+package com.devh.vitstore.model.user
 
 import com.devh.vitstore.common.model.BaseEntity
-import com.devh.vitstore.model.user.Status
 import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDateTime
 import javax.persistence.Column
