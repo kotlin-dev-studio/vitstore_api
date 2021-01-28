@@ -6,6 +6,7 @@ import com.devh.vitstore.service.product.ProductService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.bind.annotation.PostMapping
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -18,7 +19,20 @@ class ProductController(
     }
 
     @PostMapping
-    fun createProduct(@RequestBody product: ProductDto): ResponseEntity<Any> {
+    fun createProduct(@Valid @RequestBody product: ProductDto): ResponseEntity<Any> {
         return ResponseEntity.ok(productService.create(product))
+    }
+
+    @PostMapping("/{id}")
+    fun updateProduct(
+        @PathVariable("id") id: Long,
+        @Valid @RequestBody product: ProductDto
+    ): ResponseEntity<ProductDao> {
+        return ResponseEntity.ok(productService.update(id, product))
+    }
+
+    @DeleteMapping("/{id}")
+    fun deleteProduct(@PathVariable("id") id: Long): ResponseEntity<Any> {
+        return ResponseEntity.ok(productService.delete(id))
     }
 }
