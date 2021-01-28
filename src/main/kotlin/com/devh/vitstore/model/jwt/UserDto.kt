@@ -1,6 +1,6 @@
 package com.devh.vitstore.model.jwt
 
 class UserDto {
-    var email: String = ""
-    var password: String? = null
+    val email: String = ""
+    val password: String? = null
 }

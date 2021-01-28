@@ -1,9 +1,9 @@
 package com.devh.vitstore.service.jwt
 
 import com.devh.vitstore.common.model.ResultRes
-import com.devh.vitstore.model.UserDao
 import com.devh.vitstore.model.jwt.UserDto
 import com.devh.vitstore.model.user.Status
+import com.devh.vitstore.model.user.UserDao
 import com.devh.vitstore.repository.UserRepository
 import com.devh.vitstore.service.mail.SendEmailEvent
 import javassist.NotFoundException
@@ -135,5 +135,15 @@ class JwtUserDetailsService : UserDetailsService {
         eventPublisher.publishEvent(
             SendEmailEvent(user, recipientAddress, subject, confirmationUrl, message)
         )
+    }
+
+    fun updatePassWord(activeToken: String, password: String): Any {
+        val user = getUserByActiveToken(activeToken)
+            ?: return ResultRes.failure("InvalidToken or user activated")
+        if (user.activeTokenExpiredAt!! <= LocalDateTime.now()) {
+            return ResultRes.failure("Expired!!!")
+        }
+        user.password = bcryptEncoder.encode(password)
+        return userRepository.save(user)
     }
 }
