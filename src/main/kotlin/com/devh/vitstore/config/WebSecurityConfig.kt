@@ -67,7 +67,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 "/register",
                 "/confirmRegistration",
                 "/resendActiveToken",
-                "/changePassword"
+                "/changePassword",
+                "/api/v1/sample/testError"
             ).permitAll()
             .anyRequest().authenticated()
             .and()

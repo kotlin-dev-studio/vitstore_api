@@ -1,4 +1,4 @@
-package com.devh.vitstore.model.product
+package com.devh.vitstore.model.dto
 
 class ProductDto {
     var productName: String? = ""

@@ -1,6 +1,7 @@
-package com.devh.vitstore.model.user
+package com.devh.vitstore.model.dao
 
-import com.devh.vitstore.common.model.BaseEntity
+import com.devh.vitstore.common.dao.BaseEntity
+import com.devh.vitstore.model.enum.UserStatus
 import com.fasterxml.jackson.annotation.JsonIgnore
 import java.time.LocalDateTime
 import javax.persistence.Column
@@ -23,7 +24,7 @@ data class UserDao(
 
     @Column
     @Enumerated
-    var status: Status = Status.PENDING,
+    var status: UserStatus = UserStatus.PENDING,
 
     @Column
     var phoneNumber: String? = null,

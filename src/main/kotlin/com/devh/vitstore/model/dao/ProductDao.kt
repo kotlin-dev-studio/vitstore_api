@@ -1,6 +1,6 @@
-package com.devh.vitstore.model.product
+package com.devh.vitstore.model.dao
 
-import com.devh.vitstore.common.model.BaseEntity
+import com.devh.vitstore.common.dao.BaseEntity
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.validation.constraints.*

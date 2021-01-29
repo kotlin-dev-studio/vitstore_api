@@ -1,9 +1,9 @@
 package com.devh.vitstore.service.jwt
 
-import com.devh.vitstore.common.model.ResultRes
-import com.devh.vitstore.model.jwt.UserDto
-import com.devh.vitstore.model.user.Status
-import com.devh.vitstore.model.user.UserDao
+import com.devh.vitstore.common.dto.ResultRes
+import com.devh.vitstore.model.dao.UserDao
+import com.devh.vitstore.model.dto.UserDto
+import com.devh.vitstore.model.enum.UserStatus
 import com.devh.vitstore.repository.UserRepository
 import com.devh.vitstore.service.mail.SendEmailEvent
 import javassist.NotFoundException
@@ -102,7 +102,7 @@ class JwtUserDetailsService : UserDetailsService {
 
     fun activeUser(user: UserDao) {
         user.apply {
-            status = Status.APPROVED
+            status = UserStatus.APPROVED
             activeToken = null
             activeTokenExpiredAt = null
         }

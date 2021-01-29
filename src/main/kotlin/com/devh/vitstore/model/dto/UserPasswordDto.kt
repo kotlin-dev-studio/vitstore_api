@@ -1,4 +1,4 @@
-package com.devh.vitstore.model.user
+package com.devh.vitstore.model.dto
 
 import javax.validation.constraints.NotBlank
 

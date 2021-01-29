@@ -1,5 +1,13 @@
 Spring boot, Kotlin, Hibernate, Flyway, MariaDB
 
+### Architecture
+
+We are using MVC from this [reference](https://docs.google.com/spreadsheets/d/1XNUaElLfmv7YfiC9OapcDZGHpXJlMe5vbMJuuD9oy4A/edit#gid=1526999019).
+
+### Pull requests template
+
+Please check out [here](https://github.com/kotlin-dev-studio/vitstore_api/blob/develop/.github/pull_request_template.md).
+
 ### Run the application
 - Clone project from repository `git clone git@github.com:kotlin-dev-studio/vitstore_api.git`
 - Build gradle in `build.gradle.kts`
@@ -63,3 +71,9 @@ Klint
 Swagger API Document
 
 - Available at http://localhost:8080/swagger-ui/
+
+Mailcatcher
+
+> Prevent send mail from development environment to public.
+
+- Available at http://localhost:1080/

@@ -12,6 +12,10 @@
 - [ ] I updated status my task
 - [ ] Code has Unit Test?
 - [ ] Klint format is passed.
+- [ ] Are you add new properties to `application.yml` and add sample to `/resources/application-*.example`?
+
+### Configuration properties in application.yml
+*Please describe key and value here*
 
 ### Notes
 *(Other notes)*

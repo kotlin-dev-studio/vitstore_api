@@ -1,8 +1,8 @@
-package com.devh.vitstore.model.jwt
+package com.devh.vitstore.model.dto
 
 import java.io.Serializable
 
-class JwtRequest(
+data class JwtRequest(
     val email: String? = null,
     val password: String? = null
 ) : Serializable
