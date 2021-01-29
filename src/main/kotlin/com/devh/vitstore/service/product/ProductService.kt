@@ -22,11 +22,13 @@ class ProductService(
     fun listAllProductByPage(pageNo: Int, pageSize: Int): ResultListRes<ProductDao?> {
         val paginate: Pageable = PageRequest.of(pageNo, pageSize)
         val pageProducts: Page<ProductDao?> = productRepository.findAll(paginate)
+        // TODO: tupm Refactor only arg `ResultListRes(paginate, pageProducts)`
         val result = pageProducts.content
         val totalItem = pageProducts.totalElements
         val currentPage = pageProducts.number
         val totalPages = pageProducts.totalPages
-        return ResultListRes(result, totalItem, currentPage, totalPages)
+        val hasNext = pageProducts.hasNext()
+        return ResultListRes(result, totalItem, currentPage, totalPages, hasNext)
     }
 
     fun findOneById(id: Long): ProductDao {
