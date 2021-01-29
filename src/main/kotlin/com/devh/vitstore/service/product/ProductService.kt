@@ -1,10 +1,14 @@
 package com.devh.vitstore.service.product
 
+import com.devh.vitstore.common.model.ResultListRes
 import com.devh.vitstore.common.model.ResultRes
 import com.devh.vitstore.model.product.ProductDao
 import com.devh.vitstore.model.product.ProductDto
 import com.devh.vitstore.repository.ProductRepository
 import javassist.NotFoundException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -15,6 +19,12 @@ import javax.transaction.Transactional
 class ProductService(
     private var productRepository: ProductRepository
 ) {
+    fun listAllProductByPage(page_no: Int, page_size: Int): ResultListRes<ProductDao?> {
+        val paginate: Pageable = PageRequest.of(page_no, page_size)
+        val pageProducts: Page<ProductDao?> = productRepository.findAll(paginate)
+        return ResultListRes(pageProducts)
+    }
+
     fun findOneById(id: Long): ProductDao {
         return productRepository.findByIdOrNull(id) ?: throw NotFoundException("Product not found with id: $id")
     }
