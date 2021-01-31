@@ -146,4 +146,12 @@ class JwtUserDetailsService : UserDetailsService {
         user.password = bcryptEncoder.encode(password)
         return userRepository.save(user)
     }
+
+    fun updateEmail(username: String, email: String): UserDao {
+        val user = userRepository.findByUsername(username)
+            ?: throw NotFoundException("User not found with email: $email")
+        user.email = email
+        saveActiveToken(user)
+        return user
+    }
 }
