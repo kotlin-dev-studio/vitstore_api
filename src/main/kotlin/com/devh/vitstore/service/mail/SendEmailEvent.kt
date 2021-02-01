@@ -1,6 +1,6 @@
 package com.devh.vitstore.service.mail
 
-import com.devh.vitstore.model.user.UserDao
+import com.devh.vitstore.model.dao.UserDao
 import org.springframework.context.ApplicationEvent
 
 class SendEmailEvent(

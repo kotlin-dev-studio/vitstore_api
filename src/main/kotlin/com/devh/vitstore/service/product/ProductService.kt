@@ -1,8 +1,8 @@
 package com.devh.vitstore.service.product
 
-import com.devh.vitstore.common.model.ResultRes
-import com.devh.vitstore.model.product.ProductDao
-import com.devh.vitstore.model.product.ProductDto
+import com.devh.vitstore.common.dto.ResultRes
+import com.devh.vitstore.model.dao.ProductDao
+import com.devh.vitstore.model.dto.ProductDto
 import com.devh.vitstore.repository.ProductRepository
 import javassist.NotFoundException
 import org.springframework.data.repository.findByIdOrNull

@@ -1,11 +1,11 @@
 package com.devh.vitstore.controller.api.v1
 
-import com.devh.vitstore.common.model.ResultRes
+import com.devh.vitstore.common.dto.ResultRes
 import com.devh.vitstore.config.JwtTokenUtil
-import com.devh.vitstore.model.jwt.JwtRequest
-import com.devh.vitstore.model.jwt.JwtResponse
-import com.devh.vitstore.model.jwt.UserDto
-import com.devh.vitstore.model.user.Status
+import com.devh.vitstore.model.dto.JwtRequest
+import com.devh.vitstore.model.dto.JwtResponse
+import com.devh.vitstore.model.dto.UserDto
+import com.devh.vitstore.model.enum.UserStatus
 import com.devh.vitstore.service.jwt.JwtUserDetailsService
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
@@ -56,7 +56,7 @@ class JwtAuthenticationController(
         val user = jwtUserDetailsService.getUserByActiveToken(activeToken)
             ?: return ResponseEntity.ok(ResultRes.failure("InvalidToken or user activated"))
 
-        if (user.status == Status.APPROVED) return ResponseEntity.ok(ResultRes.failure("User was activated"))
+        if (user.status == UserStatus.APPROVED) return ResponseEntity.ok(ResultRes.failure("User was activated"))
 
         if (user.activeTokenExpiredAt!! <= LocalDateTime.now()) {
             return ResponseEntity.ok(ResultRes.failure("Expired!!!"))
@@ -67,8 +67,8 @@ class JwtAuthenticationController(
 
     @PostMapping("/resendActiveToken")
     fun resendActiveToken(@RequestBody user: UserDto, request: HttpServletRequest): ResponseEntity<Any> {
-        val user = jwtUserDetailsService.getUserByEmail(user.email)
-        jwtUserDetailsService.resendActiveToken(user, request.locale)
+        val userFound = jwtUserDetailsService.getUserByEmail(user.email)
+        jwtUserDetailsService.resendActiveToken(userFound, request.locale)
         return ResponseEntity.ok(ResultRes.success("Successfully"))
     }
 }

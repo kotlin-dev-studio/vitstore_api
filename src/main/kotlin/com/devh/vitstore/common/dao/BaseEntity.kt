@@ -1,4 +1,4 @@
-package com.devh.vitstore.common.model
+package com.devh.vitstore.common.dao
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import java.io.Serializable
@@ -21,9 +21,9 @@ abstract class BaseEntity<T : Serializable> {
 
         if (other == null || this::class.java != other::class.java) return false
 
-        val that = other as BaseEntity<*>
+        val that = other as? BaseEntity<*>
 
-        return entityUuid == that.entityUuid
+        return entityUuid == that?.entityUuid
     }
 
     override fun hashCode(): Int {

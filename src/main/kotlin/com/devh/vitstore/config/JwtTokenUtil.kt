@@ -3,10 +3,13 @@ package com.devh.vitstore.config
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.io.Decoders
+import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import java.io.Serializable
+import java.security.Key
 import java.util.*
 import java.util.function.Function
 
@@ -35,7 +38,7 @@ class JwtTokenUtil : Serializable {
 
     // for retrieveing any information from token we will need the secret key
     private fun getAllClaimsFromToken(token: String?): Claims {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).body
+        return Jwts.parserBuilder().setSigningKey(getHmacShaSecretBase64()).build().parseClaimsJws(token).body
     }
 
     // check if the token has expired
@@ -63,7 +66,7 @@ class JwtTokenUtil : Serializable {
     private fun doGenerateToken(claims: Map<String, Any?>, subject: String): String {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(Date(System.currentTimeMillis()))
             .setExpiration(Date(System.currentTimeMillis() + timeInMilliSeconds()))
-            .signWith(SignatureAlgorithm.HS256, secret).compact()
+            .signWith(getHmacShaSecretBase64(), SignatureAlgorithm.HS256).compact()
     }
 
     fun canTokenBeRefreshed(token: String): Boolean {
@@ -78,4 +81,10 @@ class JwtTokenUtil : Serializable {
 
     // Calculate JWT validity
     fun timeInMilliSeconds(): Long = expireTimeInHour * 60 * 60 * 1000
+
+    // Decode secret key
+    fun getHmacShaSecretBase64(): Key {
+        val keyBytes = Decoders.BASE64.decode(secret)
+        return Keys.hmacShaKeyFor(keyBytes)
+    }
 }

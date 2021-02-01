@@ -1,6 +1,7 @@
 package com.devh.vitstore.controller.api.v1.user
 
-import com.devh.vitstore.model.user.UserPasswordDto
+import com.devh.vitstore.common.dto.ResultDataRes
+import com.devh.vitstore.model.dto.UserPasswordDto
 import com.devh.vitstore.service.jwt.JwtUserDetailsService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -14,8 +15,8 @@ import javax.validation.Valid
 class PasswordController(private val jwtUserDetailsService: JwtUserDetailsService) {
     @PostMapping("/changePassword")
     @Throws(Exception::class)
-    fun changePassWord(@Valid @RequestBody user: UserPasswordDto): ResponseEntity<Any> {
+    fun changePassWord(@Valid @RequestBody user: UserPasswordDto): ResponseEntity<ResultDataRes<Any>> {
         val result = jwtUserDetailsService.updatePassWord(user.activeToken, user.password)
-        return ResponseEntity.ok(result)
+        return ResponseEntity.ok(ResultDataRes.Success(result))
     }
 }

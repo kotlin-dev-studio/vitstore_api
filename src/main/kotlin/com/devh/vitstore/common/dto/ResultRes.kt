@@ -1,4 +1,4 @@
-package com.devh.vitstore.common.model
+package com.devh.vitstore.common.dto
 
 class ResultRes(
     val result: Boolean,
