@@ -1,5 +1,6 @@
 package com.devh.vitstore.controller.api.v1.sample
 
+import com.devh.vitstore.common.error.ApiErrorDto
 import com.devh.vitstore.model.dto.JwtRequest
 import com.devh.vitstore.model.dto.JwtResponse
 import com.devh.vitstore.model.dto.ValidateErrorResponse
@@ -20,17 +21,16 @@ class UserController {
     @ApiOperation(value = "some opeation")
     @ApiResponses(value = [
         ApiResponse(code = 200, message = "Resource created", response = JwtResponse::class,
-                examples = Example(value = [ExampleProperty(value = "{'snapshot'：{'type': 'AAA'}}")])
+            examples = Example(value = [ExampleProperty(value = "{'snapshot'：{'type': 'AAA'}}")])
         ),
         ApiResponse(
-                code = 422, message = "Validation failure", response = ValidateErrorResponse::class,
-                examples = Example(value = [ExampleProperty(value = "Example text")])
-        ),
-        ApiResponse(
-                code = 400, message = "Validation failure", response = ValidateErrorResponse::class,
-                examples = Example(value = [ExampleProperty(value = "Example text")])
-        )
+            code = 400, message = "Bad Request", response = ApiErrorDto::class,
+            examples = Example(value = [ExampleProperty(value = "{'code': '602', 'message': 'Record Invalid.'}", mediaType = "application/json" )]))
+//        ApiResponse(
+//            code = 400, message = "Invalid Token", response = InvalidToken::class
+//        ),
     ])
     @Throws(Exception::class)
-    fun createAuthenticationToken(@RequestBody authenticationRequest: JwtRequest) {}
+    fun createAuthenticationToken(@RequestBody authenticationRequest: JwtRequest) {
+    }
 }

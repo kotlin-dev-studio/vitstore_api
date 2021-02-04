@@ -7,6 +7,7 @@ import com.devh.vitstore.model.dto.JwtResponse
 import com.devh.vitstore.model.dto.UserDto
 import com.devh.vitstore.model.enum.UserStatus
 import com.devh.vitstore.service.jwt.JwtUserDetailsService
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.BadCredentialsException
@@ -32,7 +33,7 @@ class JwtAuthenticationController(
         return ResponseEntity.ok(JwtResponse(token, "uuid"))
     }
 
-    @PostMapping("/register")
+    @PostMapping("/register", consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
     @Throws(Exception::class)
     fun registerUser(@RequestBody user: UserDto, request: HttpServletRequest): ResponseEntity<Any> {
         val result = jwtUserDetailsService.registerUser(user, request.locale)
