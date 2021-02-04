@@ -5,6 +5,7 @@ import com.devh.vitstore.common.dto.ResultDataRes
 import com.devh.vitstore.model.dao.ProductDao
 import com.devh.vitstore.model.dto.ProductDto
 import com.devh.vitstore.service.product.ProductService
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.bind.annotation.PostMapping
@@ -16,7 +17,7 @@ import javax.validation.Valid
 class ProductController(
     private val productService: ProductService
 ) {
-    @GetMapping("/{id}")
+    @GetMapping("/{id}", consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun findOneById(@PathVariable("id") id: Long): ResponseEntity<ResultDataRes<ProductDao>> {
         val product = productService.findOneById(id)
         return ResponseEntity.ok(ResultDataRes.Success(product))

@@ -54,7 +54,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
             "/swagger-ui/{springfox,swagger-ui}.*",
             "/configuration/**",
             "/swagger-resources/**",
-            "/v2/api-docs"
+//            "/v2/api-docs",
+            "/v3/api-docs"
         )
     }
 
