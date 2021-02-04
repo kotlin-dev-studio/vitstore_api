@@ -29,7 +29,7 @@ class JwtAuthenticationController(
         val userDetails = jwtUserDetailsService.loadUserDetailsByEmail(authenticationRequest.email ?: "")
         authenticate(username = userDetails.username, password = authenticationRequest.password ?: "")
         val token = jwtTokenUtil.generateToken(userDetails)
-        return ResponseEntity.ok(JwtResponse(token))
+        return ResponseEntity.ok(JwtResponse(token, "uuid"))
     }
 
     @PostMapping("/register")
