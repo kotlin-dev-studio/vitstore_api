@@ -54,7 +54,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
             "/swagger-ui/{springfox,swagger-ui}.*",
             "/configuration/**",
             "/swagger-resources/**",
-            "/v2/api-docs"
+//            "/v2/api-docs",
+            "/v3/api-docs"
         )
     }
 
@@ -68,7 +69,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 "/confirmRegistration",
                 "/resendActiveToken",
                 "/changePassword",
-                "/api/v1/sample/testError"
+                "/api/v1/sample/testError",
+                "v1/user/authenticate"
             ).permitAll()
             .anyRequest().authenticated()
             .and()

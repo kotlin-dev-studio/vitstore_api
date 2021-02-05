@@ -15,4 +15,7 @@ logging:
     org.springframework.web.servlet: DEBUG
     org.hibernate: ERROR
 
+springdoc:
+  api-docs:
+    path: /api-docs
 # App props
