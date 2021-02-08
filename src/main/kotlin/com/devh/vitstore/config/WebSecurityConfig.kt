@@ -71,7 +71,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 "/api/v1/sample/testError",
                 "/v1/user/authenticate",
                 "/v1/user/register",
-                "/v1/user/changeEmail"
+                "/v1/user/changeEmail",
+                "/v1/user/confirmRegistration"
             ).permitAll()
             .anyRequest().authenticated()
             .and()

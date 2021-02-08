@@ -1,7 +1,7 @@
 package com.devh.vitstore.common.dto
 
 class ResultRes(
-    val result: Boolean,
+    val success: Boolean,
     val message: String
 ) {
     companion object {
