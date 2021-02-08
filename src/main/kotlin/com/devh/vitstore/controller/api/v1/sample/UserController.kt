@@ -2,8 +2,8 @@ package com.devh.vitstore.controller.api.v1.sample
 
 import com.devh.vitstore.common.dto.ResultRes
 import com.devh.vitstore.model.dto.*
-import com.devh.vitstore.model.sample.RegistrationRequestDto
-import com.devh.vitstore.model.sample.RegistrationResDto
+import com.devh.vitstore.model.dto.RegistrationRequest
+import com.devh.vitstore.model.dto.RegistrationResponse
 import io.swagger.annotations.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -23,7 +23,7 @@ class UserController {
             ApiResponse(
                 code = 201,
                 message = "Registered User",
-                response = RegistrationResDto::class,
+                response = RegistrationResponse::class,
                 examples = Example(
                     value = [
                         ExampleProperty(
@@ -65,14 +65,13 @@ class UserController {
     )
     @ApiOperation(value = "Create a new user", notes = "Document for API 1.1")
     @Throws(Exception::class)
-    fun registerUser(@RequestBody user: RegistrationRequestDto): ResponseEntity<Any> {
-        val res = RegistrationResDto("754e9862-018e-4dce-8dd7-fca4e0ace9bf", "REGISTRATION")
+    fun registerUser(@RequestBody user: RegistrationRequest): ResponseEntity<Any> {
+        val res = RegistrationResponse("754e9862-018e-4dce-8dd7-fca4e0ace9bf", "REGISTRATION")
         return ResponseEntity<Any>(res, HttpStatus.CREATED)
     }
 
     @GetMapping(
         "/v1/user/confirmRegistration",
-        consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
     @ApiResponses(
@@ -126,6 +125,65 @@ class UserController {
         @RequestParam(name = "type", required = true) type: String
     ): ResponseEntity<Any> {
         return ResponseEntity.ok(ResultRes.success("Successfully"))
+    }
+
+    @PostMapping(
+        "/v1/user/resendActiveToken",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                code = 200,
+                message = "OK",
+                response = ActiveTokenDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'active_token' : 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJST01TMSIsImlhdCI6MTYxMjExMDQwNiwiZXhwIjoxNjEyMTI4NDA2fQ.jNjxsFbiJFDsd9lvhlS1Y2Q-ld1zVzcsP3v3U6v3Ito'}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 400,
+                message = "Bad Request",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [" +
+                                "{'error_code': 602, 'error_message': 'Invalid email or password'}," +
+                                "{'error_code': 605, 'error_message': 'User not active yet'}," +
+                                "]}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 422,
+                message = "Unprocessable Entity",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [{'error_code': 604, 'error_message': 'Type can't blank'}]}"
+                        )
+                    ]
+                )
+            )
+        ]
+    )
+    @ApiOperation(value = "Resend active token", notes = "Document for API 1.3")
+    @Throws(Exception::class)
+    fun resendActiveToken(@Valid @RequestBody request: ResendActiveTokenRequest): ResponseEntity<Any> {
+        val activeToken =
+            "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJST01TMSIsImlhdCI6MTYxMjExMDQwNiwiZXhwIjoxNjEyMTI4NDA2fQ.jNjxsFbiJFDsd9lvhlS1Y2Q-ld1zVzcsP3v3U6v3Ito"
+        return ResponseEntity.ok(ActiveTokenDto(activeToken))
     }
 
     @PostMapping(
@@ -200,8 +258,8 @@ class UserController {
                         ExampleProperty(
                             mediaType = "application/json",
                             value = "{'errors': [" +
-                                "{'error_code': 608, 'error_message': 'Invalid token or uuid'}," +
-                                "{'error_code': 609, 'error_message': 'Token is expired'}" +
+                                "{'error_code': 608, 'error_message': 'Unauthenticated'}," +
+                                "{'error_code': 609, 'error_message': 'TokenExpired'}" +
                                 "]}"
                         )
                     ]
@@ -216,8 +274,8 @@ class UserController {
                         ExampleProperty(
                             mediaType = "application/json",
                             value = "{'errors': [" +
-                                "{'error_code': 607, 'error_message': 'Invalid email'}," +
-                                "{'error_code': 604, 'error_message': 'Email is blank'}" +
+                                "{'error_code': 607, 'error_message': 'Email is invalid'}," +
+                                "{'error_code': 604, 'error_message': 'Email can't blank'}" +
                                 "]}"
                         )
                     ]
@@ -262,7 +320,7 @@ class UserController {
                         ExampleProperty(
                             mediaType = "application/json",
                             value = "{'errors': [" +
-                                "{'error_code': 604, 'error_message': 'Please enter password.'}," +
+                                "{'error_code': 604, 'error_message': 'Please enter password'}," +
                                 "]}"
                         )
                     ]
