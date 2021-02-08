@@ -72,7 +72,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 "/v1/user/authenticate",
                 "/v1/user/register",
                 "/v1/user/changeEmail",
-                "/v1/user/confirmRegistration"
+                "/v1/user/confirmRegistration",
+                "/v1/user/changePassword"
             ).permitAll()
             .anyRequest().authenticated()
             .and()

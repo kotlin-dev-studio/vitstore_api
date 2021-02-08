@@ -232,4 +232,78 @@ class UserController {
             "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJST01TMSIsImlhdCI6MTYxMjExMDQwNiwiZXhwIjoxNjEyMTI4NDA2fQ.jNjxsFbiJFDsd9lvhlS1Y2Q-ld1zVzcsP3v3U6v3Ito"
         return ResponseEntity.ok(ActiveTokenDto(activeToken))
     }
+
+    @PostMapping(
+        "/v1/user/changePassword",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                code = 200,
+                message = "OK",
+                response = ResultRes::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'success': true, 'message': 'Update password successfully' }"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 422,
+                message = "Unprocessable Entity",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [" +
+                                "{'error_code': 604, 'error_message': 'Please enter password.'}," +
+                                "]}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 401,
+                message = "Unauthorized",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [" +
+                                "{'error_code': 608, 'error_message': 'Unauthorized'}," +
+                                "{'error_code': 609, 'error_message': 'TokenExpired'}" +
+                                "]}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 400,
+                message = "Unauthorized",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [" +
+                                "{'error_code': 602, 'error_message': 'Invalid'}," +
+                                "]}"
+                        )
+                    ]
+                )
+            )
+        ]
+    )
+    @ApiOperation(value = "Change user's password", notes = "Document for API 1.8")
+    @Throws(Exception::class)
+    fun changePassword(@Valid @RequestBody request: ChangePasswordRequest): ResponseEntity<ResultRes> {
+        return ResponseEntity.ok(ResultRes.success("Update password successfully"))
+    }
 }
