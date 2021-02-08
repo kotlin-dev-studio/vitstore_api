@@ -1,5 +1,6 @@
 package com.devh.vitstore.model.dto
 
+import java.io.Serializable
 import javax.validation.constraints.NotBlank
 
 data class UserPasswordDto(
@@ -8,4 +9,4 @@ data class UserPasswordDto(
 
     @NotBlank
     val activeToken: String
-)
+) : Serializable
