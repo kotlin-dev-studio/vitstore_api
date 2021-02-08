@@ -1,5 +1,6 @@
 package com.devh.vitstore.controller.api.v1.sample
 
+import com.devh.vitstore.common.dto.ResultRes
 import com.devh.vitstore.model.dto.*
 import com.devh.vitstore.model.sample.RegistrationRequestDto
 import com.devh.vitstore.model.sample.RegistrationResDto
@@ -7,19 +8,22 @@ import io.swagger.annotations.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
 class UserController {
-    @PostMapping("/v1/user/register")
+    @PostMapping(
+        "/v1/user/register",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
     @ApiResponses(
         value = [
             ApiResponse(
                 code = 201,
                 message = "Registered User",
+                response = RegistrationResDto::class,
                 examples = Example(
                     value = [
                         ExampleProperty(
@@ -32,6 +36,7 @@ class UserController {
             ApiResponse(
                 code = 400,
                 message = "Bad Request",
+                response = ErrorsDto::class,
                 examples = Example(
                     value = [
                         ExampleProperty(
@@ -45,6 +50,7 @@ class UserController {
             ApiResponse(
                 code = 422,
                 message = "Unprocessable Entity",
+                response = ErrorsDto::class,
                 examples = Example(
                     value = [
                         ExampleProperty(
@@ -64,7 +70,69 @@ class UserController {
         return ResponseEntity<Any>(res, HttpStatus.CREATED)
     }
 
-    @PostMapping("/v1/user/authenticate")
+    @GetMapping(
+        "/v1/user/confirmRegistration",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                code = 200,
+                message = "OK",
+                response = ResultRes::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'success': true, 'message': 'Successfully'}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 400,
+                message = "Bad Request",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [{'error_code': '603', 'error_message': 'Invalid Token'}," +
+                                "{'error_code': '610', 'error_message': 'User Activated'}]}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 401,
+                message = "Unauthorized",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [{'error_code': '609', 'error_message': 'Token Expired'}]}"
+                        )
+                    ]
+                )
+            )
+        ]
+    )
+    @ApiOperation(value = "Active account", notes = "Document for API 1.2")
+    @Throws(Exception::class)
+    fun confirmRegistration(
+        @RequestParam(name = "active_token", required = true) activeToken: String,
+        @RequestParam(name = "type", required = true) type: String
+    ): ResponseEntity<Any> {
+        return ResponseEntity.ok(ResultRes.success("Successfully"))
+    }
+
+    @PostMapping(
+        "/v1/user/authenticate",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
     @ApiResponses(
         value = [
             ApiResponse(
