@@ -226,7 +226,61 @@ class UserController {
     )
     @ApiOperation(value = "Login user", notes = "Document for API 1.4")
     @Throws(Exception::class)
-    fun createAuthenticationToken(@RequestBody authenticationRequest: JwtRequest) {
+    fun createAuthenticationToken(@RequestBody authenticationRequest: JwtRequest): ResponseEntity<Any> {
+        val response = TokenDto(
+            "123e4567-e89b-42d3-a456-556642440010",
+            "YuaJxCZ13LjkiuyqqoiKhus7ILoingTalj.1duqiuypOutBgAqiYthgJHGsa.wity13KJhagyowuak4nmgZzxvty"
+        )
+        return ResponseEntity.ok(response)
+    }
+
+    @PostMapping(
+        "/v1/user/refreshToken",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                code = 200,
+                message = "OK",
+                response = TokenDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'active_token' : 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJST01TMSIsImlhdCI6MTYxMjExMDQwNiwiZXhwIjoxNjEyMTI4NDA2fQ'," +
+                                " 'uuid': '123e4567-e89b-42d3-a456-556642440000'}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 401,
+                message = "Unauthorized",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [" +
+                                "{'error_code': 608, 'error_message': 'Unauthenticated'}," +
+                                "{'error_code': 609, 'error_message': 'TokenExpired'}" +
+                                "]}"
+                        )
+                    ]
+                )
+            )
+        ]
+    )
+    @ApiOperation(value = "Refresh token", notes = "Document for API 1.5")
+    @Throws(Exception::class)
+    fun refreshToken(@Valid @RequestBody request: TokenDto): ResponseEntity<Any> {
+        val response = TokenDto(
+            "123e4567-e89b-42d3-a456-556642440010",
+            "YuaJxCZ13LjkiuyqqoiKhus7ILoingTalj.1duqiuypOutBgAqiYthgJHGsa.wity13KJhagyowuak4nmgZzxvty"
+        )
+        return ResponseEntity.ok(response)
     }
 
     @PostMapping(
