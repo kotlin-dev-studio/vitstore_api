@@ -2,8 +2,6 @@ package com.devh.vitstore.controller.api.v1.sample
 
 import com.devh.vitstore.common.dto.ResultRes
 import com.devh.vitstore.model.dto.*
-import com.devh.vitstore.model.dto.RegistrationRequest
-import com.devh.vitstore.model.dto.RegistrationResponse
 import io.swagger.annotations.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
+@Api(tags = ["ID API"])
 class UserController {
     @PostMapping(
         "/v1/user/register",
@@ -63,7 +62,7 @@ class UserController {
             )
         ]
     )
-    @ApiOperation(value = "Create a new user", notes = "Document for API 1.1")
+    @ApiOperation(value = "API 1.1 - Create a new user")
     @Throws(Exception::class)
     fun registerUser(@RequestBody user: RegistrationRequest): ResponseEntity<Any> {
         val res = RegistrationResponse("754e9862-018e-4dce-8dd7-fca4e0ace9bf", "REGISTRATION")
@@ -118,7 +117,7 @@ class UserController {
             )
         ]
     )
-    @ApiOperation(value = "Active account", notes = "Document for API 1.2")
+    @ApiOperation(value = "API 1.2 - Active account")
     @Throws(Exception::class)
     fun confirmRegistration(
         @RequestParam(name = "active_token", required = true) activeToken: String,
@@ -178,7 +177,7 @@ class UserController {
             )
         ]
     )
-    @ApiOperation(value = "Resend active token", notes = "Document for API 1.3")
+    @ApiOperation(value = "API 1.3 - Resend active token")
     @Throws(Exception::class)
     fun resendActiveToken(@Valid @RequestBody request: ResendActiveTokenRequest): ResponseEntity<Any> {
         val activeToken =
@@ -187,7 +186,7 @@ class UserController {
     }
 
     @PostMapping(
-        "/v1/user/authenticate",
+        "/v1/authenticate",
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
@@ -201,7 +200,7 @@ class UserController {
                     value = [
                         ExampleProperty(
                             mediaType = "application/json",
-                            value = "{'token' : 'xxxxxx', 'uuid': 'xxxxxx'}"
+                            value = "{'token' : 'YuaJxCZ13LjkiuyqqoiKhus7ILoingTalj.1duqiuypOutBgAqiYthgJHGsa.wity13KJhagyowuak4nmgZzxvty', 'uuid': '123e4567-e89b-42d3-a456-556642440010'}"
                         )
                     ]
                 )
@@ -224,7 +223,7 @@ class UserController {
             )
         ]
     )
-    @ApiOperation(value = "Login user", notes = "Document for API 1.4")
+    @ApiOperation(value = "API 1.4 - Login user")
     @Throws(Exception::class)
     fun createAuthenticationToken(@RequestBody authenticationRequest: JwtRequest): ResponseEntity<Any> {
         val response = TokenDto(
@@ -235,7 +234,7 @@ class UserController {
     }
 
     @PostMapping(
-        "/v1/user/refreshToken",
+        "/v1/refreshToken",
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
@@ -249,7 +248,7 @@ class UserController {
                     value = [
                         ExampleProperty(
                             mediaType = "application/json",
-                            value = "{'active_token' : 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJST01TMSIsImlhdCI6MTYxMjExMDQwNiwiZXhwIjoxNjEyMTI4NDA2fQ'," +
+                            value = "{'token' : 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJST01TMSIsImlhdCI6MTYxMjExMDQwNiwiZXhwIjoxNjEyMTI4NDA2fQ'," +
                                 " 'uuid': '123e4567-e89b-42d3-a456-556642440000'}"
                         )
                     ]
@@ -273,7 +272,7 @@ class UserController {
             )
         ]
     )
-    @ApiOperation(value = "Refresh token", notes = "Document for API 1.5")
+    @ApiOperation(value = "API 1.5 - Refresh token")
     @Throws(Exception::class)
     fun refreshToken(@Valid @RequestBody request: TokenDto): ResponseEntity<Any> {
         val response = TokenDto(
@@ -332,7 +331,7 @@ class UserController {
             )
         ]
     )
-    @ApiOperation(value = "Update user information", notes = "Document for API 1.6")
+    @ApiOperation(value = "API 1.6 - Update user information")
     @Throws(Exception::class)
     fun updateUserInfo(@Valid @RequestBody request: UpdateUserInfoRequest): ResponseEntity<Any> {
         return ResponseEntity.ok(ResultRes.success("Update info successfully"))
@@ -392,7 +391,7 @@ class UserController {
             )
         ]
     )
-    @ApiOperation(value = "Change user's email", notes = "Document for API 1.7")
+    @ApiOperation(value = "API 1.7 - Change user's email")
     @Throws(Exception::class)
     fun changeEmail(@Valid @RequestBody request: ChangeEmailRequest): ResponseEntity<Any> {
         val activeToken =
@@ -468,7 +467,7 @@ class UserController {
             )
         ]
     )
-    @ApiOperation(value = "Change user's password", notes = "Document for API 1.8")
+    @ApiOperation(value = "API 1.8 - Change user's password")
     @Throws(Exception::class)
     fun changePassword(@Valid @RequestBody request: ChangePasswordRequest): ResponseEntity<ResultRes> {
         return ResponseEntity.ok(ResultRes.success("Update password successfully"))

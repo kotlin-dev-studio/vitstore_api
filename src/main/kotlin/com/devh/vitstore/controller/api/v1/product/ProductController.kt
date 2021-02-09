@@ -1,18 +1,15 @@
 package com.devh.vitstore.controller.api.v1.product
 
-import com.devh.vitstore.common.annotation.BearerHeaderToken
 import com.devh.vitstore.common.dto.ResultDataRes
 import com.devh.vitstore.model.dao.ProductDao
 import com.devh.vitstore.model.dto.ProductDto
 import com.devh.vitstore.service.product.ProductService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.bind.annotation.PostMapping
 import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/v1/products")
-@BearerHeaderToken
 class ProductController(
     private val productService: ProductService
 ) {
