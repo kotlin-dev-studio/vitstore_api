@@ -4,7 +4,7 @@ services:
     build: ./mariadb
     container_name: vitstore_db
     volumes:
-      - data:/var/lib/mysql
+      - data-mariadb:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: root
@@ -19,6 +19,7 @@ services:
     ports:
       - 1025:1025
       - 1080:1080
+    command: mailcatcher --no-quit --foreground --ip=0.0.0.0
 volumes:
-  data:
+  data-mariadb:
     driver: local

@@ -8,11 +8,20 @@ spring:
         dialect: org.hibernate.dialect.MariaDB103Dialect
     hibernate:
       ddl-auto: update
+  jackson:
+    property-naming-strategy: SNAKE_CASE
 logging:
   level:
     org.springframework.security: DEBUG
     org.springframework.session: INFO
     org.springframework.web.servlet: DEBUG
     org.hibernate: ERROR
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_trace_param # never in production
+    include-exception: true
 
 # App props

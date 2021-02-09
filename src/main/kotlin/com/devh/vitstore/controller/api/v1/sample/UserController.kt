@@ -225,7 +225,7 @@ class UserController {
     )
     @ApiOperation(value = "API 1.4 - Login user")
     @Throws(Exception::class)
-    fun createAuthenticationToken(@RequestBody authenticationRequest: JwtRequest): ResponseEntity<Any> {
+    fun createAuthenticationToken(@Valid @RequestBody authenticationRequest: JwtRequest): ResponseEntity<Any> {
         val response = TokenDto(
             "123e4567-e89b-42d3-a456-556642440010",
             "YuaJxCZ13LjkiuyqqoiKhus7ILoingTalj.1duqiuypOutBgAqiYthgJHGsa.wity13KJhagyowuak4nmgZzxvty"

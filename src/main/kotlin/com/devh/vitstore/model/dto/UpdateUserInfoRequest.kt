@@ -1,14 +1,11 @@
 package com.devh.vitstore.model.dto
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategy
-import com.fasterxml.jackson.databind.annotation.JsonNaming
 import org.springframework.format.annotation.DateTimeFormat
 import java.io.Serializable
 import java.util.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
 data class UpdateUserInfoRequest(
     @field:NotBlank
     val uuid: String,
