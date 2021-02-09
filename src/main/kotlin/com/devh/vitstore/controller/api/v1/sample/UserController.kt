@@ -284,6 +284,61 @@ class UserController {
     }
 
     @PostMapping(
+        "/v1/user/update",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                code = 200,
+                message = "OK",
+                response = ResultRes::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'success': true, 'message': 'Update info successfully'}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 401,
+                message = "Unauthorized",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [{'error_code': '608', 'error_message': 'Unauthenticated'}," +
+                                "{'error_code': '609', 'error_message': 'TokenExpired'}]}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 422,
+                message = "Unprocessable Entity",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [{'error_code': '607', 'error_message': 'Invalid birthday'}]}"
+                        )
+                    ]
+                )
+            )
+        ]
+    )
+    @ApiOperation(value = "Update user information", notes = "Document for API 1.6")
+    @Throws(Exception::class)
+    fun updateUserInfo(@Valid @RequestBody request: UpdateUserInfoRequest): ResponseEntity<Any> {
+        return ResponseEntity.ok(ResultRes.success("Update info successfully"))
+    }
+
+    @PostMapping(
         "/v1/user/changeEmail",
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
