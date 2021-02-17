@@ -472,4 +472,48 @@ class UserController {
     fun changePassword(@Valid @RequestBody request: ChangePasswordRequest): ResponseEntity<ResultRes> {
         return ResponseEntity.ok(ResultRes.success("Update password successfully"))
     }
+
+    @PostMapping(
+        "/v1/user/deActivate",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                code = 200,
+                message = "OK",
+                response = ResultRes::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'success': true, 'message': 'Successfully'}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 401,
+                message = "Unauthorized",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [" +
+                                "{'error_code': 608, 'error_message': 'Unauthenticated'}," +
+                                "{'error_code': 609, 'error_message': 'TokenExpired'}" +
+                                "]}"
+                        )
+                    ]
+                )
+            )
+        ]
+    )
+    @ApiOperation(value = "API 1.11 - DeActivate user")
+    @Throws(Exception::class)
+    fun deActivate(@Valid @RequestBody request: TokenDto): ResponseEntity<Any> {
+        return ResponseEntity.ok(ResultRes.success("Successfully"))
+    }
 }
