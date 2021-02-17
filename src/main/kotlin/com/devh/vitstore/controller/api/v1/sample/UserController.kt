@@ -472,4 +472,49 @@ class UserController {
     fun changePassword(@Valid @RequestBody request: ChangePasswordRequest): ResponseEntity<ResultRes> {
         return ResponseEntity.ok(ResultRes.success("Update password successfully"))
     }
+
+    @GetMapping(
+        "/v1/user/email",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                code = 200,
+                message = "OK",
+                response = EmailDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'email' : 'example@sun-asterisk.com'}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 401,
+                message = "Unauthorized",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [" +
+                                "{'error_code': 608, 'error_message': 'Unauthenticated'}," +
+                                "{'error_code': 609, 'error_message': 'TokenExpired'}" +
+                                "]}"
+                        )
+                    ]
+                )
+            )
+        ]
+    )
+    @ApiOperation(value = "API 1.10 - Get user's email")
+    @Throws(Exception::class)
+    fun getEmail(@Valid @RequestBody request: TokenDto): ResponseEntity<Any> {
+        val response = EmailDto("example@sun-asterisk.com")
+        return ResponseEntity.ok(response)
+    }
 }
