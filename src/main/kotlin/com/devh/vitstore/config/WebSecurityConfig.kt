@@ -68,7 +68,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 "/confirmRegistration",
                 "/resendActiveToken",
                 "/changePassword",
-                "/api/v1/sample/testError",
+                "/api/v1/sample/ex/**",
                 "/v1/authenticate",
                 "/v1/user/register",
                 "/v1/user/changeEmail",
