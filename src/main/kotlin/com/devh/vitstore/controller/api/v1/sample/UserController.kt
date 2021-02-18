@@ -195,7 +195,7 @@ class UserController {
             ApiResponse(
                 code = 200,
                 message = "OK",
-                response = JwtResponse::class,
+                response = CookieDto::class,
                 examples = Example(
                     value = [
                         ExampleProperty(
@@ -226,7 +226,7 @@ class UserController {
     @ApiOperation(value = "API 1.4 - Login user")
     @Throws(Exception::class)
     fun createAuthenticationToken(@Valid @RequestBody authenticationRequest: JwtRequest): ResponseEntity<Any> {
-        val response = TokenDto(
+        val response = CookieDto(
             "123e4567-e89b-42d3-a456-556642440010",
             "YuaJxCZ13LjkiuyqqoiKhus7ILoingTalj.1duqiuypOutBgAqiYthgJHGsa.wity13KJhagyowuak4nmgZzxvty"
         )
@@ -243,7 +243,7 @@ class UserController {
             ApiResponse(
                 code = 200,
                 message = "OK",
-                response = TokenDto::class,
+                response = CookieDto::class,
                 examples = Example(
                     value = [
                         ExampleProperty(
@@ -274,8 +274,8 @@ class UserController {
     )
     @ApiOperation(value = "API 1.5 - Refresh token")
     @Throws(Exception::class)
-    fun refreshToken(@Valid @RequestBody request: TokenDto): ResponseEntity<Any> {
-        val response = TokenDto(
+    fun refreshToken(@Valid @RequestBody request: CookieDto): ResponseEntity<Any> {
+        val response = CookieDto(
             "123e4567-e89b-42d3-a456-556642440010",
             "YuaJxCZ13LjkiuyqqoiKhus7ILoingTalj.1duqiuypOutBgAqiYthgJHGsa.wity13KJhagyowuak4nmgZzxvty"
         )

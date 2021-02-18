@@ -231,4 +231,58 @@ class TokenController {
     fun deleteToken(@Valid @RequestBody request: DeleteTokenRequest): ResponseEntity<Any> {
         return ResponseEntity.ok(ResultRes.success("Delete successfully"))
     }
+
+    @PostMapping(
+        "/v1/token",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                code = 200,
+                message = "OK",
+                response = TokenDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'token' : 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJST01TMSIsImlhdCI6MTYxMjExMDQwNiwiZXhwIjoxNjEyMTI4NDA2fQ.jNjxsFbiJFDsd9lvhlS1Y2Q-ld1zVzcsP3v3U6v3Ito'}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 404,
+                message = "Not Found",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [{'error_code': 610, 'error_message': 'roms_id is not found'}]}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 422,
+                message = "Unprocessable Entity",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [{'error_code': '604', 'error_message': '\$name can't blank'}]}"
+                        )
+                    ]
+                )
+            )
+        ]
+    )
+    @ApiOperation(value = "API 2.1 - Publishing TOKEN api")
+    @Throws(Exception::class)
+    fun publishingToken(@Valid @RequestBody request: PublishingTokenRequest): ResponseEntity<Any> {
+        return ResponseEntity.ok(TokenDto("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJST01TMSIsImlhdCI6MTYxMjExMDQwNiwiZXhwIjoxNjEyMTI4NDA2fQ.jNjxsFbiJFDsd9lvhlS1Y2Q-ld1zVzcsP3v3U6v3Ito"))
+    }
 }
