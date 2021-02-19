@@ -2,7 +2,6 @@ package com.devh.vitstore.common.error
 
 import java.util.*
 import java.util.Locale
-import javax.validation.MessageInterpolator
 
 object Messages {
     fun getMessageForLocale(messageKey: String): String {

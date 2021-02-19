@@ -95,10 +95,10 @@ class SampleController {
     }
 
     // curl --location --request POST 'localhost:8080/api/v1/sample/ex/methodArgumentNotValidException' \
-    //--header 'Content-Type: application/json' \
-    //--data-raw '{
+    // --header 'Content-Type: application/json' \
+    // --data-raw '{
     //    "name": ""
-    //}'
+    // }'
     @PostMapping("/ex/methodArgumentNotValidException")
     fun methodArgumentNotValidException(@Valid @RequestBody request: MethodArgumentNotValidExceptionDto): ResponseEntity<ApiErrorDto> {
         return ResponseEntity(ApiErrorDto(123, "test"), HttpStatus.BAD_REQUEST)
