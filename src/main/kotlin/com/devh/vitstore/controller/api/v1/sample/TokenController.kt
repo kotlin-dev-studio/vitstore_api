@@ -1,5 +1,6 @@
 package com.devh.vitstore.controller.api.v1.sample
 
+import com.devh.vitstore.common.dto.ResultRes
 import com.devh.vitstore.model.dto.*
 import io.swagger.annotations.*
 import org.springframework.http.MediaType
@@ -157,5 +158,77 @@ class TokenController {
     @Throws(Exception::class)
     fun authTokenByUuid(@Valid @RequestBody request: AuthTokenByUuidRequest): ResponseEntity<Any> {
         return ResponseEntity.ok(AuthTokenResponse("321"))
+    }
+
+    @DeleteMapping(
+        "/v1/token",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                code = 200,
+                message = "OK",
+                response = ResultRes::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'success': true, 'message': 'Delete successfully'}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 401,
+                message = "Unauthorized",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [" +
+                                "{'error_code': 608, 'error_message': 'Unauthorized'}," +
+                                "{'error_code': 609, 'error_message': 'TokenExpired'}" +
+                                "]}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 400,
+                message = "Bad Request",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [" +
+                                "{'error_code': 602, 'error_message': 'RecordInvalid'}," +
+                                "]}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 422,
+                message = "Unprocessable Entity",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [{'error_code': 604, 'error_message': 'Type can't blank'}]}"
+                        )
+                    ]
+                )
+            )
+        ]
+    )
+    @ApiOperation(value = "API 2.3 - Delete token api")
+    @Throws(Exception::class)
+    fun deleteToken(@Valid @RequestBody request: DeleteTokenRequest): ResponseEntity<Any> {
+        return ResponseEntity.ok(ResultRes.success("Delete successfully"))
     }
 }
