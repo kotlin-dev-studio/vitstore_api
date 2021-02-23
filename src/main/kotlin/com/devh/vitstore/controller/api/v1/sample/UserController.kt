@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.util.*
 import javax.validation.Valid
 
 @RestController
@@ -459,7 +460,7 @@ class UserController {
                         ExampleProperty(
                             mediaType = "application/json",
                             value = "{'errors': [" +
-                                "{'error_code': 602, 'error_message': 'Invalid'}," +
+                                "{'error_code': 602, 'error_message': 'Invalid'}" +
                                 "]}"
                         )
                     ]
@@ -471,5 +472,72 @@ class UserController {
     @Throws(Exception::class)
     fun changePassword(@Valid @RequestBody request: ChangePasswordRequest): ResponseEntity<ResultRes> {
         return ResponseEntity.ok(ResultRes.success("Update password successfully"))
+    }
+
+    @GetMapping(
+        "/v1/user/me",
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                code = 200,
+                message = "OK",
+                response = UserInfoResponse::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'romsid': '123', 'sex': 'm', 'birthday': '2021-01-19T00:00:00Z', 'postal_code': '1234567', 'agreements': '{'saleinfo': true}'}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 422,
+                message = "Unprocessable Entity",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [{'error_code': 604, 'error_message': '\$name can't blank'}]}"
+                        )
+                    ]
+                )
+            ),
+            ApiResponse(
+                code = 401,
+                message = "Unauthorized",
+                response = ErrorsDto::class,
+                examples = Example(
+                    value = [
+                        ExampleProperty(
+                            mediaType = "application/json",
+                            value = "{'errors': [" +
+                                "{'error_code': 608, 'error_message': 'Unauthorized'}," +
+                                "{'error_code': 609, 'error_message': 'TokenExpired'}" +
+                                "]}"
+                        )
+                    ]
+                )
+            )
+        ]
+    )
+    @ApiOperation(value = "API 1.9 - User information display")
+    @Throws(Exception::class)
+    fun showUserInfo(
+        @RequestParam(name = "token", required = true) token: String,
+        @RequestParam(name = "uuid", required = true) uuid: String
+    ): ResponseEntity<Any> {
+        val response = UserInfoResponse(
+            "123",
+            "m",
+            Date(),
+            "1234567",
+            AgreementDto(true)
+        )
+        return ResponseEntity.ok(response)
     }
 }
