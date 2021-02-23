@@ -25,3 +25,6 @@ server:
     include-exception: true
 
 # App props
+app:
+  token:
+    expiredAtInHours: 24

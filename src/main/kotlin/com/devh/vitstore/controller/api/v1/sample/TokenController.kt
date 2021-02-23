@@ -2,6 +2,7 @@ package com.devh.vitstore.controller.api.v1.sample
 
 import com.devh.vitstore.common.dto.ResultRes
 import com.devh.vitstore.model.dto.*
+import com.devh.vitstore.service.token.TokenDetailService
 import io.swagger.annotations.*
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -10,7 +11,7 @@ import javax.validation.Valid
 
 @RestController
 @Api(tags = ["TOKEN API"])
-class TokenController {
+class TokenController(private val tokenService: TokenDetailService) {
     @PostMapping(
         "/v1/token/auth/romsid",
         consumes = [MediaType.APPLICATION_JSON_VALUE],
@@ -283,6 +284,7 @@ class TokenController {
     @ApiOperation(value = "API 2.1 - Publishing TOKEN api")
     @Throws(Exception::class)
     fun publishingToken(@Valid @RequestBody request: PublishingTokenRequest): ResponseEntity<Any> {
-        return ResponseEntity.ok(TokenDto("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJST01TMSIsImlhdCI6MTYxMjExMDQwNiwiZXhwIjoxNjEyMTI4NDA2fQ.jNjxsFbiJFDsd9lvhlS1Y2Q-ld1zVzcsP3v3U6v3Ito"))
+        val responses = tokenService.publishToken(request)
+        return ResponseEntity.ok(responses)
     }
 }

@@ -76,7 +76,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 "/v1/user/changePassword",
                 "/v1/user/resendActiveToken",
                 "/v1/refreshToken",
-                "/v1/user/update"
+                "/v1/user/update",
+                "/v1/token"
             ).permitAll()
             .anyRequest().authenticated()
             .and()

@@ -1,19 +1,17 @@
 package com.devh.vitstore.model.dto
 
+import com.devh.vitstore.model.enum.TokenType
 import java.io.Serializable
+import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank
-import javax.validation.constraints.Pattern
 
 data class PublishingTokenRequest(
     @field:NotBlank
     val romsid: String,
 
-    @field:NotBlank
-    @field:Pattern(regexp = "^(REGISTRATION|PWCHANGE|LOGIN)$")
-    val type: String,
+    val type: TokenType,
 
     val uuid: String?,
 
-    @field:NotBlank
-    val token: String
+    val expireDate: LocalDateTime
 ) : Serializable
